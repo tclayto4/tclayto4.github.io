@@ -1,5 +1,30 @@
 body{
-    background-color: darkslateblue;
+    background-color: rgb(128, 133, 204);
     text-align: center;
-    color:darkcyan
+    color:black;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+a{
+    color: aliceblue;
+    text-decoration: none;
+}
+
+a:hover {
+    color: green;
+    text-decoration: line;
+}
+
+main{
+    text-align: left;
+    margin-top: 2.5%
+}
+
+h2{
+    text-align: center;
+}
+
+figure{
+    text-align:center;
+    font-style: italic;
 }
