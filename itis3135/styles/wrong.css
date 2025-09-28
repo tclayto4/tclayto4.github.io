@@ -1,0 +1,33 @@
+h1{
+    font-family: "Papyrus";
+    color:black;
+    background-color: white;
+    text-align: right;
+    margin-right: 10px
+    margin-right: 0px;
+
+h2{
+    font-family: "Comic Sans";
+    color: black;
+    background-color: white;
+    text-align: right;
+    margin-right: 2px;
+    margin-right: 5px;
+}
+
+a{
+
+}
+
+ul{
+    text-align: center;
+    margin-right: 1px;
+    margin-right: 2px;
+}
+
+p{
+    text-align: center;
+    margin-right: 1px;
+    margin-right: 0px;
+    font-size: 100px;
+}

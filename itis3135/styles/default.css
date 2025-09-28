@@ -6,8 +6,8 @@ body{
 }
 
 a{
-    color: aliceblue;
-    text-decoration: none;
+    color: rgb(255, 217, 0);
+    text-decoration: underline;
 }
 
 a:hover {
