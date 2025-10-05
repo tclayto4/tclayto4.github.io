@@ -17,6 +17,9 @@ a:hover {
 
 main{
     text-align: left;
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
 }
 
 h2{
@@ -38,3 +41,4 @@ li{
 footer{
     text-align: center;
 }
+
