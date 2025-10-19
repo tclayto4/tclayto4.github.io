@@ -194,8 +194,8 @@
 
     function show(id) {
         const targetId = id.replace("#", "") || DEFAULT_ID;
-        pages.forEach((sec => sec.classList.toggle("active", sec.id === targetId)));
-        links.forEach((a => a.classList.toggle("active", a.getAttribute("href") === `#${targetId}`)));
+        pages.forEach((sec) => sec.classList.toggle("active", sec.id === targetId));
+        links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === `#${targetId}`));
     }
     show(location.hash);
     window.addEventListener("hashchange", () => show(location.hash));
