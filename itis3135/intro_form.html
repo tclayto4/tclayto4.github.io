@@ -73,11 +73,13 @@
           <label>Link 5 <input name="link5" placeholder="https://..."></label>
         </div>
 
+
         <div>
           <button type="submit">Submit</button>
           <button type="reset" id="r">Reset</button>
           <button type="button" id="c">Clear</button>
         </div>
+        
       </form>
     </div>
   </main>
@@ -94,7 +96,7 @@
       return (s || "").replace(/[&<>"]/g, function(c){
         var map = {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"};
         return map[c];
-      });
+        });
     }
 
     function addRow(v){
@@ -127,7 +129,8 @@
       var ok = true;
       Array.from(f.querySelectorAll("[required]")).forEach(function(i){
         if (!String(i.value).trim()) ok = false;
-      });
+        });
+
       if (!ok) alert("Please complete all required fields.");
       return ok;
     }
@@ -155,7 +158,7 @@
         b7: f.b7.value.trim(),
         quote: f.quote.value.trim(),
         quoteAuthor: f.quoteAuthor.value.trim()
-      };
+        };
     }
 
     function showResult(d){
@@ -193,27 +196,24 @@
     var addBtn = document.getElementById("addCourse");
     var picFile = f.querySelector('[name="picFile"]');
 
-    addDefaults();
 
+    addDefaults();
     f.addEventListener("submit", function(e){
       e.preventDefault();
       if (!checkReq(f)) return;
       var d = getData(f, picFile);
       showResult(d);
     });
-
     clearBtn.addEventListener("click", function(){
       Array.from(f.querySelectorAll("input,textarea")).forEach(function(x){ x.value = ""; });
       document.getElementById("courses").innerHTML = "";
     });
-
     resetBtn.addEventListener("click", function(){
       setTimeout(function(){
         document.getElementById("courses").innerHTML = "";
         addDefaults();
       }, 0);
     });
-
     addBtn.addEventListener("click", function(){
       addRow();
     });
