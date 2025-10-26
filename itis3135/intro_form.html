@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction Form</title>
+  <link rel="stylesheet" href="styles/default.css">
+  <script src="https://lint.page/kit/4d0fe3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <div data-include="components/header.html"></div>
+  </header>
+
+  <main>
+    <h2>Introduction Form</h2>
+    <h2>Thomas Clayton || Thirsty Cheetah</h2>
+    <h3>Please submit the form below.</h3>
+
+    <div id="holder">
+      <form id="f">
+        <div>
+          <label>First Name <input name="firstName" required value="Thomas"></label>
+          <label>Middle Name / Initial <input name="middleName"></label>
+          <label>Nickname / Preferred Name <input name="nickName"></label>
+          <label>Last Name <input name="lastName" required value="Clayton"></label>
+        </div>
+
+        <div>
+          <label>Acknowledgment Statement <input name="ackStmt" required value="I acknowledge that this is my work."></label>
+          <label>Acknowledgment Date <input name="ackDate" required value="10/26/2025"></label>
+        </div>
+
+        <div>
+          <label>Mascot Adjective <input name="mascotAdj" required value="Thirsty"></label>
+          <label>Mascot Animal <input name="mascotAnimal" required value="Cheetah"></label>
+        </div>
+
+        <div>
+
+          <label>Picture URL <input name="picUrl" value="images/korea.jpg"></label>
+          <label>Upload Picture <input type="file" name="picFile" accept="image/*"></label>
+          <label>Picture Caption <input name="picCaption" required value="Me in Seoul Korea"></label>
+        </div>
+
+        <div>
+          <label>Personal Statement <textarea name="personalStatement"></textarea></label>
+
+          <label>Personal Background <textarea name="b1" required>I was born and raised in North Carolina and grew up around Raleigh until moving to Charlotte for school. I'm half Korean and the rest is just a mix of European ethnicities. In middle and high school I was a runner and was on our schools crosscountry and track teams.</textarea></label>
+
+          <label>Professional Background <textarea name="b2" required>I’ve worked at various retail stores as a fulfillment employee including target and lowes. In high school I also worked as a delivery driver for a local pizza restaurant. Currently I am unemployed but looking for a part time job during the school year.</textarea></label>
+
+          <label>Academic Background <textarea name="b3" required>This is my third year at UNC Charlotte studying Computer Science.</textarea></label>
+
+          <label>Primary Computer <textarea name="b4" required>Mini ITX windows 11 computer that I built and a 2019 Macbook pro when im on the go.</textarea></label>
+
+          <div id="courseBox">
+            <h4>Courses</h4>
+            <div id="courses"></div>
+                <button type="button" id="addCourse">Add Course</button>
+
+          </div>
+
+          <label>Funny thing <textarea name="b6">I had jaw surgery in high school.</textarea></label>
+          <label>Something I would like to share <textarea name="b7">I live with three cats.</textarea></label>
+        </div>
+
+        <div>
+          <label>Quote <input name="quote" value="You miss 100% of the shots you don’t take."></label>
+          <label>Quote Author <input name="quoteAuthor" value="Wayne Gretzky"></label>
+          <label>Link 1 <input name="link1" placeholder="https://..."></label>
+          <label>Link 2 <input name="link2" placeholder="https://..."></label>
+          <label>Link 3 <input name="link3" placeholder="https://..."></label>
+          <label>Link 4 <input name="link4" placeholder="https://..."></label>
+          <label>Link 5 <input name="link5" placeholder="https://..."></label>
+        </div>
+
+
+        <div>
+          <button type="submit">Submit</button>
+          <button type="reset" id="r">Reset</button>
+          <button type="button" id="c">Clear</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+
+    <div data-include="components/footer.html"></div>
+  </footer>
+
+  <script src="scripts/HTMlInclude.min.js"></script>
+  <script>
+   (function(){
+    var f=document.getElementById('f');
+    var clearBtn=document.getElementById('c');
+    var resetBtn=document.getElementById('r');
+    var addBtn=document.getElementById('addCourse');
+    var coursesBox=document.getElementById('courses');
+    var picFile=f.querySelector('[name="picFile"]');
+
+    f.addEventListener('submit',function(e){
+    e.preventDefault();
+      if(!checkReq()) return;
+      showResult();
+    });
+
+    clearBtn.addEventListener('click',function(){
+    Array.from(f.querySelectorAll('input,textarea')).forEach(function(x){x.value='';});
+      coursesBox.innerHTML='';
+    });
+    resetBtn.addEventListener('click',function(){
+      setTimeout(function(){
+        coursesBox.innerHTML='';
+        addDefaults();
+      },0);
+    });
+    addBtn.addEventListener('click',function(){
+      addRow();
+    });
+
+    function addRow(v){
+      var row=document.createElement('div');
+      row.className='course';
+      row.innerHTML='<label>Dept <input name="dept" value="'+(v&&v.dept||'')+'"></label> '+
+      '<label>Number <input name="num" value="'+(v&&v.num||'')+'"></label> '+
+      '<label>Name <input name="name" value="'+(v&&v.name||'')+'"></label> '+
+      '<label>Reason <input name="reason" value="'+(v&&v.reason||'')+'"></label> '+
+      '<button type="button" class="del">X</button>';
+      row.querySelector('.del').addEventListener('click',function(){row.remove();});
+         coursesBox.appendChild(row);
+
+    }
+
+    function addDefaults(){
+      var d=[
+        {dept:'STAT',num:'2223',name:'Elements of Statistics II',reason:'Major req.'},
+        {dept:'ITIS',num:'3135',name:'Front-end Web App Development',reason:'Major req.'},
+        {dept:'MUSC',num:'1104',name:'History of Rock',reason:'Interest.'},
+        {dept:'PHIL',num:'1512',name:'Local Arts/Humanities: Democracy and Virtue',reason:'Gen ed.'},
+        {dept:'ITSC',num:'2175',name:'Logic and Algorithms',reason:'Major req.'}
+      ];
+      
+      d.forEach(addRow);
+    }
+    addDefaults();
+
+    function checkReq(){
+      var ok=true;
+      Array.from(f.querySelectorAll('[required]')).forEach(function(i){
+        if(!String(i.value).trim()) ok=false;
+            });
+
+      if(!ok) alert('Please complete all required fields.');
+      return ok;
+    }
+
+    function showResult(){
+      var d=getData();
+      var innerCourses=d.courses.map(function(c){
+        return '<li><b>'+esc(c.dept)+' '+esc(c.num)+' - '+esc(c.name)+':</b> '+esc(c.reason)+'</li>';
+        }).join('');
+
+      var out=document.createElement('div');
+      out.innerHTML=
+        '<figure>'+
+          '<img src="'+d.picture+'" alt="Korea Pic">'+
+          '<figcaption>'+esc(d.picCaption)+'</figcaption>'+
+        '</figure>'+
+        '<ul>'+
+          '<li><b>Personal Background:</b> '+esc(d.b1)+'</li>'+
+          '<li><b>Professional Background:</b> '+esc(d.b2)+'</li>'+
+          '<li><b>Academic Background:</b> '+esc(d.b3)+'</li>'+
+          '<li><b>Primary Computer:</b> '+esc(d.b4)+'</li>'+
+          '<li><b>Courses</b><ul>'+innerCourses+'</ul></li>'+
+          '<li><b>Funny/Interesting Item to Remember Me by:</b> '+esc(d.b6)+'</li>'+
+          '<li><b>I’d also like to share:</b> '+esc(d.b7)+'</li>'+
+        '</ul>'+
+        '<p><b>Favorite Quote:</b> "'+esc(d.quote)+'" — '+esc(d.quoteAuthor)+'</p>'+
+        '<hr><p><a href="#" id="again">Reset and try again</a></p>';
+      var holder=document.getElementById('holder');
+      holder.innerHTML='';
+      holder.appendChild(out);
+      out.querySelector('#again').addEventListener('click',function(e){
+        e.preventDefault();
+        location.reload();
+        });
+    }
+
+    function getData(){
+      var file=picFile.files&&picFile.files[0];
+      var pic=file?URL.createObjectURL(file):(f.picUrl.value||'images/korea.jpg');
+      var courses=Array.from(document.querySelectorAll('#courses .course')).map(function(r){
+        return{
+          dept:r.querySelector('[name="dept"]').value.trim(),
+          num:r.querySelector('[name="num"]').value.trim(),
+          name:r.querySelector('[name="name"]').value.trim(),
+          reason:r.querySelector('[name="reason"]').value.trim()
+         };
+      });
+      return{
+        picture:pic,
+        picCaption:f.picCaption.value.trim(),
+        b1:f.b1.value.trim(),
+        b2:f.b2.value.trim(),
+        b3:f.b3.value.trim(),
+        b4:f.b4.value.trim(),
+        courses:courses,
+        b6:f.b6.value.trim(),
+        b7:f.b7.value.trim(),
+        quote:f.quote.value.trim(),
+        quoteAuthor:f.quoteAuthor.value.trim()
+         };
+    }
+
+    function esc(s){
+       return (s||'').replace(/[&<>"]/g,function(c){
+        return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+        });
+    }
+  })();
+  </script>
+</body>
+</html>
