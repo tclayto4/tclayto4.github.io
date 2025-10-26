@@ -34,7 +34,6 @@
         <div>
           <label>Mascot Adjective <input name="mascotAdj" required value="Thirsty"></label>
           <label>Mascot Animal <input name="mascotAnimal" required value="Cheetah"></label>
-        
         </div>
 
         <div>
@@ -90,36 +89,16 @@
   <script src="scripts/HTMlInclude.min.js"></script>
   <script>
   (function(){
-    var f = document.getElementById("f");
-    var clearBtn = document.getElementById("c");
-    var resetBtn = document.getElementById("r");
-    var addBtn = document.getElementById("addCourse");
-    var coursesBox = document.getElementById("courses");
-    var picFile = f.querySelector('[name="picFile"]');
 
-    f.addEventListener("submit", function(e){
-      e.preventDefault();
-      if(!checkReq()) return;
-      showResult();
-    });
-
-    clearBtn.addEventListener("click", function(){
-      Array.from(f.querySelectorAll("input,textarea")).forEach(function(x){ x.value = ""; });
-      coursesBox.innerHTML = "";
-    });
-
-    resetBtn.addEventListener("click", function(){
-      setTimeout(function(){
-        coursesBox.innerHTML = "";
-        addDefaults();
-      }, 0);
-    });
-
-    addBtn.addEventListener("click", function(){
-      addRow();
-    });
+    function esc(s){
+      return (s || "").replace(/[&<>"]/g, function(c){
+        var map = {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"};
+        return map[c];
+      });
+    }
 
     function addRow(v){
+      var coursesBox = document.getElementById("courses");
       var row = document.createElement("div");
       row.className = "course";
       row.innerHTML =
@@ -140,21 +119,46 @@
         {dept:"PHIL",num:"1512",name:"Local Arts/Humanities: Democracy and Virtue",reason:"Gen ed."},
         {dept:"ITSC",num:"2175",name:"Logic and Algorithms",reason:"Major req."}
       ];
-      d.forEach(addRow);
+      var i;
+      for (i = 0; i < d.length; i++) addRow(d[i]);
     }
-    addDefaults();
 
-    function checkReq(){
+    function checkReq(f){
       var ok = true;
       Array.from(f.querySelectorAll("[required]")).forEach(function(i){
-        if(!String(i.value).trim()) ok = false;
+        if (!String(i.value).trim()) ok = false;
       });
-      if(!ok) alert("Please complete all required fields.");
+      if (!ok) alert("Please complete all required fields.");
       return ok;
     }
 
-    function showResult(){
-      var d = getData();
+    function getData(f, picFile){
+      var file = picFile.files && picFile.files[0];
+      var pic = file ? URL.createObjectURL(file) : (f.picUrl.value || "images/korea.jpg");
+      var courses = Array.from(document.querySelectorAll("#courses .course")).map(function(r){
+        return {
+          dept:  r.querySelector('[name="dept"]').value.trim(),
+          num:   r.querySelector('[name="num"]').value.trim(),
+          name:  r.querySelector('[name="name"]').value.trim(),
+          reason:r.querySelector('[name="reason"]').value.trim()
+        };
+      });
+      return {
+        picture: pic,
+        picCaption: f.picCaption.value.trim(),
+        b1: f.b1.value.trim(),
+        b2: f.b2.value.trim(),
+        b3: f.b3.value.trim(),
+        b4: f.b4.value.trim(),
+        courses: courses,
+        b6: f.b6.value.trim(),
+        b7: f.b7.value.trim(),
+        quote: f.quote.value.trim(),
+        quoteAuthor: f.quoteAuthor.value.trim()
+      };
+    }
+
+    function showResult(d){
       var innerCourses = d.courses.map(function(c){
         return "<li><b>"+esc(c.dept)+" "+esc(c.num)+" - "+esc(c.name)+":</b> "+esc(c.reason)+"</li>";
       }).join("");
@@ -183,39 +187,37 @@
         location.reload();
       });
     }
+    var f = document.getElementById("f");
+    var clearBtn = document.getElementById("c");
+    var resetBtn = document.getElementById("r");
+    var addBtn = document.getElementById("addCourse");
+    var picFile = f.querySelector('[name="picFile"]');
 
-    function getData(){
-      var file = picFile.files && picFile.files[0];
-      var pic = file ? URL.createObjectURL(file) : (f.picUrl.value || "images/korea.jpg");
-      var courses = Array.from(document.querySelectorAll("#courses .course")).map(function(r){
-        return {
-          dept:  r.querySelector('[name="dept"]').value.trim(),
-          num:   r.querySelector('[name="num"]').value.trim(),
-          name:  r.querySelector('[name="name"]').value.trim(),
-          reason:r.querySelector('[name="reason"]').value.trim()
-        };
-      });
-      return {
-        picture: pic,
-        picCaption: f.picCaption.value.trim(),
-        b1: f.b1.value.trim(),
-        b2: f.b2.value.trim(),
-        b3: f.b3.value.trim(),
-        b4: f.b4.value.trim(),
-        courses: courses,
-        b6: f.b6.value.trim(),
-        b7: f.b7.value.trim(),
-        quote: f.quote.value.trim(),
-        quoteAuthor: f.quoteAuthor.value.trim()
-      };
-    }
+    addDefaults();
 
-    function esc(s){
-      return (s || "").replace(/[&<>"]/g, function(c){
-        var map = {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"};
-        return map[c];
-      });
-    }
+    f.addEventListener("submit", function(e){
+      e.preventDefault();
+      if (!checkReq(f)) return;
+      var d = getData(f, picFile);
+      showResult(d);
+    });
+
+    clearBtn.addEventListener("click", function(){
+      Array.from(f.querySelectorAll("input,textarea")).forEach(function(x){ x.value = ""; });
+      document.getElementById("courses").innerHTML = "";
+    });
+
+    resetBtn.addEventListener("click", function(){
+      setTimeout(function(){
+        document.getElementById("courses").innerHTML = "";
+        addDefaults();
+      }, 0);
+    });
+
+    addBtn.addEventListener("click", function(){
+      addRow();
+    });
+
   })();
   </script>
 </body>
