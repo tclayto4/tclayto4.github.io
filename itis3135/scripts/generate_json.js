@@ -4,7 +4,7 @@
 
   const swapHeading = () => {
     const h = qa("main h2")[0];
-    if (h && /Introduction\s*Form/i.test(h.textContent)) h.textContent = "Introduction HTML";
+    if (h && /Introduction\s*Form/i.test(h.textContent)) h.textContent = "Introduction JSON";
   };
 
   const coursesFromDom = () =>
@@ -34,7 +34,7 @@
     return {
       firstName: f.firstName?.value?.trim() || "Thomas",
       preferredName: f.nickName?.value?.trim() || "Tom",
-      middleInitial: f.middleInitial?.value?.trim() || "J",
+      middleInitial: f.middleInitial?.value?.trim() || "S",
       lastName: f.lastName?.value?.trim() || "Clayton",
       divider: "~",
       mascotAdjective: f.mascotAdj?.value?.trim() || "Thirsty",
