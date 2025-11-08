@@ -1,8 +1,21 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body{
     background-color: rgb(128, 133, 204);
     text-align: center;
     color:black;
     font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#page-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 a{
@@ -13,6 +26,16 @@ a{
 a:hover {
     color: green;
     text-decoration: line;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 main{
